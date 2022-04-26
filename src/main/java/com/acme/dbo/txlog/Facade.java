@@ -1,5 +1,7 @@
 package com.acme.dbo.txlog;
 
+import java.util.Objects;
+
 public class Facade {
     public static final String STRING = "String";
     public static final String INT = "Integer";
@@ -27,7 +29,7 @@ public class Facade {
         if (lastType == null) {
             lastType = INT;
         }
-        if (!lastType.equals(INT) || (long) intAccumulator + message > Integer.MAX_VALUE) {
+        if (!Objects.equals(lastType, INT) || (long) intAccumulator + message > Integer.MAX_VALUE) {
             flush();
         }
         lastType = INT;
@@ -46,7 +48,7 @@ public class Facade {
         if (lastType == null) {
             lastType = STRING;
         }
-        if (!message.equals(lastString) || !lastType.equals(STRING)) {
+        if (!Objects.equals(message, lastString) || !Objects.equals(lastType, STRING)) {
             flush();
         }
         lastType = STRING;
