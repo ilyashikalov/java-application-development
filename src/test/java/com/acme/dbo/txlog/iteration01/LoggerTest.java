@@ -11,7 +11,7 @@ import java.io.IOException;
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     //region given
     @Before
-    public void setUpSystemOut() throws IOException {
+    public void setUpSystemOut() {
         resetOut();
         captureSysout();
     }
@@ -23,21 +23,21 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     //endregion
 
     @Test
-    public void shouldLogInteger() throws IOException {
+    public void shouldLogInteger() {
         //region when
         Facade.log(1);
         Facade.log(0);
         Facade.log(-1);
+        Facade.flush();
         //endregion
 
         //region then
-        assertSysoutContains("primitive: ");
-        assertSysoutEquals("primitive: 1\nprimitive: 0\nprimitive: -1\n");
+        assertSysoutContains("primitive: 0");
         //endregion
     }
 
     @Test
-    public void shouldLogByte() throws IOException {
+    public void shouldLogByte() {
         //region when
         Facade.log((byte)1);
         Facade.log((byte)0);
@@ -52,11 +52,8 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
     }
 
-    /*
-    TODO: implement Logger solution to match specification as tests
-
     @Test
-    public void shouldLogChar() throws IOException {
+    public void shouldLogChar() {
         //region when
         Facade.log('a');
         Facade.log('b');
@@ -70,21 +67,23 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
-    public void shouldLogString() throws IOException {
+    public void shouldLogString() {
         //region when
         Facade.log("test string 1");
         Facade.log("other str");
+        Facade.flush();
         //endregion
 
         //region then
         assertSysoutContains("string: ");
         assertSysoutContains("test string 1");
         assertSysoutContains("other str");
+        Facade.flush();
         //endregion
     }
 
     @Test
-    public void shouldLogBoolean() throws IOException {
+    public void shouldLogBoolean() {
         //region when
         Facade.log(true);
         Facade.log(false);
@@ -98,7 +97,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
-    public void shouldLogReference() throws IOException {
+    public void shouldLogReference() {
         //region when
         Facade.log(new Object());
         //endregion
@@ -108,6 +107,4 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         assertSysoutContains("@");
         //endregion
     }
-
-    */
 }
