@@ -2,18 +2,20 @@ package com.acme.dbo.txlog.iteration01;
 
 import com.acme.dbo.txlog.Facade;
 import com.acme.dbo.txlog.SysoutCaptureAndAssertionAbility;
+import com.acme.dbo.txlog.saver.ConsoleSaver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
+    private Facade facade;
+
     //region given
     @Before
     public void setUpSystemOut() {
         resetOut();
         captureSysout();
+        facade = new Facade(new ConsoleSaver());
     }
 
     @After
@@ -25,10 +27,10 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogInteger() {
         //region when
-        Facade.log(1);
-        Facade.log(0);
-        Facade.log(-1);
-        Facade.flush();
+        facade.log(1);
+        facade.log(0);
+        facade.log(-1);
+        facade.flush();
         //endregion
 
         //region then
@@ -39,9 +41,9 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogByte() {
         //region when
-        Facade.log((byte)1);
-        Facade.log((byte)0);
-        Facade.log((byte)-1);
+        facade.log((byte)1);
+        facade.log((byte)0);
+        facade.log((byte)-1);
         //endregion
 
         //region then
@@ -55,8 +57,8 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogChar() {
         //region when
-        Facade.log('a');
-        Facade.log('b');
+        facade.log('a');
+        facade.log('b');
         //endregion
 
         //region then
@@ -69,24 +71,24 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogString() {
         //region when
-        Facade.log("test string 1");
-        Facade.log("other str");
-        Facade.flush();
+        facade.log("test string 1");
+        facade.log("other str");
+        facade.flush();
         //endregion
 
         //region then
         assertSysoutContains("string: ");
         assertSysoutContains("test string 1");
         assertSysoutContains("other str");
-        Facade.flush();
+        facade.flush();
         //endregion
     }
 
     @Test
     public void shouldLogBoolean() {
         //region when
-        Facade.log(true);
-        Facade.log(false);
+        facade.log(true);
+        facade.log(false);
         //endregion
 
         //region then
@@ -99,7 +101,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogReference() {
         //region when
-        Facade.log(new Object());
+        facade.log(new Object());
         //endregion
 
         //region then

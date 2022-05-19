@@ -1,5 +1,8 @@
 package com.acme.dbo.txlog;
 
+import com.acme.dbo.txlog.decorator.LogMessageDecorator;
+import com.acme.dbo.txlog.saver.ConsoleSaver;
+
 import java.util.Objects;
 
 public class Facade {
@@ -12,20 +15,25 @@ public class Facade {
     private static String lastString;
     private static String lastType;
     private static int stringCounter = 0;
+    private final ConsoleSaver saver;
 
-    public static void log(Object message) {
-        System.out.println(LogMessageDecorator.decorate(message));
+    public Facade(ConsoleSaver consoleSaver) {
+        saver = consoleSaver;
     }
 
-    public static void log(boolean message) {
-        System.out.println(LogMessageDecorator.decorate(message));
+    public void log(Object message) {
+        saver.save(LogMessageDecorator.decorate(message));
     }
 
-    public static void log(char message) {
-        System.out.println(LogMessageDecorator.decorate(message));
+    public void log(boolean message) {
+        saver.save(LogMessageDecorator.decorate(message));
     }
 
-    public static void log(int message) {
+    public void log(char message) {
+        saver.save(LogMessageDecorator.decorate(message));
+    }
+
+    public void log(int message) {
         if (lastType == null) {
             lastType = INT;
         }
@@ -37,11 +45,11 @@ public class Facade {
         intAccumulator += message;
     }
 
-    public static void log(byte message) {
-        System.out.println(LogMessageDecorator.decorate(message));
+    public void log(byte message) {
+        saver.save(LogMessageDecorator.decorate(message));
     }
 
-    public static void log(String message) {
+    public void log(String message) {
         if (lastString == null) {
             lastString = message;
         }
@@ -57,7 +65,7 @@ public class Facade {
         stringStateClean = false;
     }
 
-    public static void flush() {
+    public void flush() {
         if (!stringStateClean) {
             flushString();
         }
@@ -66,18 +74,18 @@ public class Facade {
         }
     }
 
-    private static void flushInt() {
-        System.out.println(LogMessageDecorator.decorate(intAccumulator));
+    private void flushInt() {
+        saver.save(LogMessageDecorator.decorate(intAccumulator));
         intAccumulator = 0;
         intStateClean = true;
     }
 
-    private static void flushString() {
+    private void flushString() {
         if (stringCounter == 1) {
-            System.out.println(LogMessageDecorator.decorate(lastString));
+            saver.save(LogMessageDecorator.decorate(lastString));
         } else if (lastString != null) {
             String decorated = LogMessageDecorator.decorate(String.format("%s (x%d)%n", lastString, stringCounter));
-            System.out.println(decorated);
+            saver.save(decorated);
         }
 
         stringCounter = 0;
