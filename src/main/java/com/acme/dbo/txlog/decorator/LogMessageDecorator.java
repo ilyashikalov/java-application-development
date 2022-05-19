@@ -1,4 +1,4 @@
-package com.acme.dbo.txlog;
+package com.acme.dbo.txlog.decorator;
 
 public class LogMessageDecorator {
     public static <T> String decorate (T message) {

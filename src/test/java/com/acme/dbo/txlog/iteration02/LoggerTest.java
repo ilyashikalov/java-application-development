@@ -2,18 +2,19 @@ package com.acme.dbo.txlog.iteration02;
 
 import com.acme.dbo.txlog.Facade;
 import com.acme.dbo.txlog.SysoutCaptureAndAssertionAbility;
+import com.acme.dbo.txlog.saver.ConsoleSaver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
+    private Facade facade;
     //region given
     @Before
     public void setUpSystemOut() {
         resetOut();
         captureSysout();
+        facade = new Facade(new ConsoleSaver());
     }
 
     @After
@@ -26,12 +27,12 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogSequentIntegersAsSum() {
         //region when
-        Facade.log("str 1");
-        Facade.log(1);
-        Facade.log(2);
-        Facade.log("str 2");
-        Facade.log(0);
-        Facade.flush();
+        facade.log("str 1");
+        facade.log(1);
+        facade.log(2);
+        facade.log("str 2");
+        facade.log(0);
+        facade.flush();
         //endregion
 
         //region then
@@ -45,12 +46,12 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogCorrectlyIntegerOverflowWhenSequentIntegers() {
         //region when
-        Facade.log("str 1");
-        Facade.log(10);
-        Facade.log(Integer.MAX_VALUE);
-        Facade.log("str 2");
-        Facade.log(0);
-        Facade.flush();
+        facade.log("str 1");
+        facade.log(10);
+        facade.log(Integer.MAX_VALUE);
+        facade.log("str 2");
+        facade.log(0);
+        facade.flush();
         //endregion
 
         //region then
@@ -65,12 +66,12 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogCorrectlyByteOverflowWhenSequentBytes() {
         //region when
-        Facade.log("str 1");
-        Facade.log((byte) 10);
-        Facade.log(Byte.MAX_VALUE);
-        Facade.log("str 2");
-        Facade.log(0);
-        Facade.flush();
+        facade.log("str 1");
+        facade.log((byte) 10);
+        facade.log(Byte.MAX_VALUE);
+        facade.log("str 2");
+        facade.log(0);
+        facade.flush();
         //endregion
 
         //region then
@@ -85,15 +86,15 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogSameSubsequentStringsWithoutRepeat() {
         //region when
-        Facade.log("str 1");
-        Facade.log("str 2");
-        Facade.log("str 2");
-        Facade.log(0);
-        Facade.log("str 2");
-        Facade.log("str 3");
-        Facade.log("str 3");
-        Facade.log("str 3");
-        Facade.flush();
+        facade.log("str 1");
+        facade.log("str 2");
+        facade.log("str 2");
+        facade.log(0);
+        facade.log("str 2");
+        facade.log("str 3");
+        facade.log("str 3");
+        facade.log("str 3");
+        facade.flush();
         //endregion
 
         //region then

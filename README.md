@@ -331,9 +331,9 @@ git clone --branch master --depth 1 https://github.com/ACCOUNT/java-application-
 - [ ] Builder Pattern as constructor alternative: OCP implementation for flexibility
 
 ## Hand-on Iteration 05: Refactor towards OOAD through encapsulation 
-- [ ] FR: presentation changes
-- [ ] Refactor to code reuse with Smart Commands
-- [ ] Refactor to code reuse with Factory Method pattern
+- [ ] FR: 
+- int & String messages support
+- decorate and accumulate
 ### DoD
 - [ ] All given specifications runs are green
 - [ ] Code reuse and minimum code duplication
