@@ -10,10 +10,6 @@ public abstract class Message {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     public Severity getSeverity() {
         return severity;
     }
