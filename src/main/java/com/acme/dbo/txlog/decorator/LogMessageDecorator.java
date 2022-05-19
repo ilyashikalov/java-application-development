@@ -9,8 +9,6 @@ public class LogMessageDecorator {
             return "null";
         }
         switch (message.getClass().getSimpleName()) {
-            case "String" : return "string: ";
-            case "Integer" :
             case "Byte" :
             case "Boolean" :
                 return "primitive: ";
